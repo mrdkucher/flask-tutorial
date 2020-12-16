@@ -29,4 +29,17 @@ def create_app(test_config=None):
     def hello():
         return 'Hello, World!'
 
+    # register db creation and cleanup using init_app
+    from . import db
+    db.init_app(app)
+
+    # take bp variable from auth, and register the blueprint (for views) 
+    from . import auth
+    app.register_blueprint(auth.bp)
+
+    from . import blog
+    app.register_blueprint(blog.bp)
+    app.add_url_rule('/', endpoint='index')
+
     return app
+
