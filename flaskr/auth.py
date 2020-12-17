@@ -9,6 +9,7 @@ from flaskr.db import get_db
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
 
+
 # create a 'register' view of the data
 @bp.route('/register', methods=('GET', 'POST'))
 def register():
@@ -40,6 +41,7 @@ def register():
 
     return render_template('auth/register.html')
 
+
 @bp.route('/login', methods=('GET', 'POST'))
 def login():
     if request.method == 'POST':
@@ -64,6 +66,7 @@ def login():
 
     return render_template('auth/login.html')
 
+
 # For logged in users: add user info (row) from db to request
 @bp.before_app_request
 def load_logged_in_user():
@@ -76,20 +79,21 @@ def load_logged_in_user():
             'SELECT * FROM user WHERE id = ?', (user_id,)
         ).fetchone()
 
+
 # clear session upon logout
 @bp.route('/logout')
 def logout():
     session.clear()
     return redirect(url_for('index'))
 
+
 # require auth for certain pages via decorator 'login_required'
 def login_required(view):
     @functools.wraps(view)
     def wrapped_view(**kwargs):
         if g.user is None:
-            return redirect(url_for('auth.login')) # blueprint.endpoint
+            return redirect(url_for('auth.login'))  # blueprint.endpoint
 
         return view(**kwargs)
 
     return wrapped_view
-

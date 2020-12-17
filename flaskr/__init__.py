@@ -33,7 +33,7 @@ def create_app(test_config=None):
     from . import db
     db.init_app(app)
 
-    # take bp variable from auth, and register the blueprint (for views) 
+    # take bp variable from auth, and register the blueprint (for views)
     from . import auth
     app.register_blueprint(auth.bp)
 
@@ -42,4 +42,3 @@ def create_app(test_config=None):
     app.add_url_rule('/', endpoint='index')
 
     return app
-
